@@ -1,20 +1,25 @@
 // component
-import SvgColor from '../../../components/svg-color';
+import SvgColor from "../../../components/svg-color";
 
 // ----------------------------------------------------------------------
 
-const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const icon = (name) => (
+  <SvgColor
+    src={`/assets/icons/navbar/${name}.svg`}
+    sx={{ width: 1, height: 1 }}
+  />
+);
 
 const navConfig = [
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
-    icon: icon('ic_analytics'),
+    title: "dashboard",
+    path: "/dashboard/app",
+    icon: icon("ic_analytics"),
   },
   {
-    title: 'map',
-    path: '/dashboard/map',
-    icon: icon('ic_user'),
+    title: "map",
+    path: "/dashboard/map",
+    icon: icon("ic_user"),
   },
   // {
   //   title: 'user',
@@ -22,15 +27,15 @@ const navConfig = [
   //   icon: icon('ic_user'),
   // },
   {
-    title: 'analytics',
-    path: '/dashboard/analytics',
-    icon: icon('ic_cart'),
+    title: "analytics",
+    path: "/dashboard/analytics",
+    icon: icon("ic_cart"),
   },
-  {
-    title: 'resources',
-    path: '/dashboard/resources',
-    icon: icon('ic_cart'),
-  },
+  // {
+  //   title: 'resources',
+  //   path: '/dashboard/resources',
+  //   icon: icon('ic_cart'),
+  // },
   // {
   //   title: 'blog',
   //   path: '/dashboard/blog',

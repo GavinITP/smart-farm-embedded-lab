@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+import {} from "openai";
 
 const useNetpie = () => {
-  const NETPIE_NODE = 'https://api.netpie.io/v2/device/shadow/data';
-  const CLIENT_ID = '6df8dd31-9065-485f-9361-1f2991420729';
-  const TOKEN = 'xC6993zTngx9mNnQ4TMCtW6hNULZFWKB';
+  const NETPIE_NODE = process.env.NETPIE_NODE;
+  const CLIENT_ID = process.env.CLIENT_ID;
+  const TOKEN = process.env.TOKEN;
 
   const options = {
     headers: {

@@ -1,10 +1,11 @@
-import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
+import { Helmet } from "react-helmet-async";
+import { faker } from "@faker-js/faker";
+import { useEffect } from "react";
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { useTheme } from "@mui/material/styles";
+import { Grid, Container, Typography } from "@mui/material";
 // components
-import Iconify from '../components/iconify';
+import Iconify from "../components/iconify";
 // sections
 import {
   AppTasks,
@@ -16,15 +17,44 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
-} from '../sections/@dashboard/app';
+} from "../sections/@dashboard/app";
 
-import useNetpie from '../hooks/useNetpie';
+import useNetpie from "../hooks/useNetpie";
 
 // ----------------------------------------------------------------------
+
+const tempArr = Array(11).fill(0);
+const humdArr = Array(11).fill(0);
+const heightArr = Array(11).fill(0);
+const lightArr = Array(11).fill(0);
+
+const updateArr = (netpieData) => {
+  tempArr.push(netpieData.temperature);
+  humdArr.push(netpieData.humidity);
+  heightArr.push(netpieData.height);
+  lightArr.push(netpieData.light);
+
+  if (tempArr.length > 11) tempArr.shift();
+  if (humdArr.length > 11) humdArr.shift();
+  if (heightArr.length > 11) heightArr.shift();
+  if (lightArr.length > 11) lightArr.shift();
+};
 
 export default function DashboardAppPage() {
   const theme = useTheme();
   const netpieData = useNetpie();
+
+  updateArr(netpieData);
+
+  useEffect(() => {
+    const delay = 2000;
+
+    const timer = setTimeout(() => {}, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   // const dailyTasks = [
   //   { id: '1', label: 'Create FireStone Logo' },
@@ -50,7 +80,7 @@ export default function DashboardAppPage() {
             <AppWidgetSummary
               title="Water Level (cm)"
               total={netpieData.height}
-              icon={'ant-design:experiment-filled'}
+              icon={"ant-design:experiment-filled"}
             />
           </Grid>
 
@@ -59,7 +89,7 @@ export default function DashboardAppPage() {
               title="Humidity (%RH)"
               total={netpieData.humidity}
               color="info"
-              icon={'ant-design:cloud-filled'}
+              icon={"ant-design:cloud-filled"}
             />
           </Grid>
 
@@ -68,7 +98,7 @@ export default function DashboardAppPage() {
               title="Light (unit)"
               total={netpieData.light}
               color="warning"
-              icon={'ant-design:bulb-filled'}
+              icon={"ant-design:bulb-filled"}
             />
           </Grid>
 
@@ -77,7 +107,7 @@ export default function DashboardAppPage() {
               title="Temperature (°C)"
               total={netpieData.temperature}
               color="error"
-              icon={'ant-design:fire-filled'}
+              icon={"ant-design:fire-filled"}
             />
           </Grid>
 
@@ -85,13 +115,25 @@ export default function DashboardAppPage() {
             <AppWebsiteVisits
               title="Water level"
               subheader="Monitor the level of water storage on your farm"
-              chartLabels={['20s', '18s', '16s', '14s', '12s', '10s', '8s', '6s', '4s', '2s', '0s']}
+              chartLabels={[
+                "20s",
+                "18s",
+                "16s",
+                "14s",
+                "12s",
+                "10s",
+                "8s",
+                "6s",
+                "4s",
+                "2s",
+                "0s",
+              ]}
               chartData={[
                 {
-                  name: 'Water level',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+                  name: "Water level",
+                  type: "column",
+                  fill: "solid",
+                  data: heightArr,
                 },
               ]}
             />
@@ -101,13 +143,25 @@ export default function DashboardAppPage() {
             <AppWebsiteVisits
               title="Humidity"
               subheader="monitor the humidity of the air in the farm area"
-              chartLabels={['20s', '18s', '16s', '14s', '12s', '10s', '8s', '6s', '4s', '2s', '0s']}
+              chartLabels={[
+                "20s",
+                "18s",
+                "16s",
+                "14s",
+                "12s",
+                "10s",
+                "8s",
+                "6s",
+                "4s",
+                "2s",
+                "0s",
+              ]}
               chartData={[
                 {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  name: "Humidity",
+                  type: "area",
+                  fill: "gradient",
+                  data: humdArr,
                 },
               ]}
             />
@@ -117,13 +171,25 @@ export default function DashboardAppPage() {
             <AppWebsiteVisits
               title="Light"
               subheader="monitor analog light data "
-              chartLabels={['20s', '18s', '16s', '14s', '12s', '10s', '8s', '6s', '4s', '2s', '0s']}
+              chartLabels={[
+                "20s",
+                "18s",
+                "16s",
+                "14s",
+                "12s",
+                "10s",
+                "8s",
+                "6s",
+                "4s",
+                "2s",
+                "0s",
+              ]}
               chartData={[
                 {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  name: "Light",
+                  type: "area",
+                  fill: "gradient",
+                  data: lightArr,
                 },
               ]}
             />
@@ -133,13 +199,25 @@ export default function DashboardAppPage() {
             <AppWebsiteVisits
               title="Temperature"
               subheader="monitor the temperature of the farm"
-              chartLabels={['20s', '18s', '16s', '14s', '12s', '10s', '8s', '6s', '4s', '2s', '0s']}
+              chartLabels={[
+                "20s",
+                "18s",
+                "16s",
+                "14s",
+                "12s",
+                "10s",
+                "8s",
+                "6s",
+                "4s",
+                "2s",
+                "0s",
+              ]}
               chartData={[
                 {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+                  name: "Temperature",
+                  type: "area",
+                  fill: "gradient",
+                  data: tempArr,
                 },
               ]}
             />
