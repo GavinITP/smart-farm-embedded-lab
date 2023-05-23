@@ -128,7 +128,9 @@ export default function AnalyticsPage() {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedCropType, setSelectedCropType] = useState(null);
 
-  const [responseData, setResponseData] = useState("");
+  const [responseData, setResponseData] = useState(
+    "Please provide all necessary information and then click analyze data to get analytics from AI."
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [resErr, setResErr] = useState(false);
 
@@ -158,7 +160,7 @@ export default function AnalyticsPage() {
     setIsLoading(true);
     setResErr(false);
 
-    const GPT_KEY = "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";
+    const GPT_KEY = "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";
     const options = {
       method: "POST",
       headers: {
@@ -191,7 +193,7 @@ export default function AnalyticsPage() {
 
   const [formError, setFormError] = useState(false);
 
-  const validateInput = () => {
+  const generateResponse = () => {
     setFormError(false);
     if (
       farmSize < 0 ||
@@ -201,10 +203,6 @@ export default function AnalyticsPage() {
     ) {
       setFormError(true);
     }
-  };
-
-  const generateResponse = () => {
-    validateInput();
     if (
       !formError &&
       farmSize !== null &&
@@ -218,7 +216,7 @@ export default function AnalyticsPage() {
   return (
     <>
       <Helmet>
-        <title> Analytics </title>
+        <title> AI-based farm analyzer </title>
       </Helmet>
       <Container>
         <Stack
@@ -228,7 +226,7 @@ export default function AnalyticsPage() {
           mb={5}
         >
           <Typography variant="h3" gutterBottom>
-            Analytics
+            AI-based farm analyzer
           </Typography>
         </Stack>
 
@@ -295,19 +293,25 @@ export default function AnalyticsPage() {
             sx={{
               backgroundColor: "#D0F2FF",
               padding: "2rem",
-              borderRadius: "2rem",
+              borderRadius: "1rem",
               textAlign: "center",
             }}
           >
-            <Typography variant="h4">Current data from sensors</Typography>
+            <Typography variant="h4" style={{ color: "#042979" }}>
+              Current data from sensors
+            </Typography>
             <Container
               sx={{
                 my: "1rem",
               }}
             >
-              <Typography>Water level: {allData.height} cm</Typography>
-              <Typography>Humidity: {allData.humidity} %RH</Typography>
-              <Typography>
+              <Typography style={{ color: "#40619F" }}>
+                Water level: {allData.height} cm
+              </Typography>
+              <Typography style={{ color: "#40619F" }}>
+                Humidity: {allData.humidity} %RH
+              </Typography>
+              <Typography style={{ color: "#40619F" }}>
                 Temperature: {allData.temperature} celcius
               </Typography>
             </Container>
@@ -317,22 +321,26 @@ export default function AnalyticsPage() {
             sx={{
               backgroundColor: "#ffe7d9",
               padding: "2rem",
-              borderRadius: "2rem",
+              borderRadius: "1rem",
               textAlign: "center",
             }}
           >
-            <Typography variant="h4">Given data from the user</Typography>
+            <Typography variant="h4" style={{ color: "#7A0B2E" }}>
+              Given data from the user
+            </Typography>
 
             <Container
               sx={{
                 my: "1rem",
               }}
             >
-              <Typography>Farm size: {farmSize || " --- "} acre</Typography>
-              <Typography>
+              <Typography style={{ color: "#A14E5E" }}>
+                Farm size: {farmSize || " --- "} acre
+              </Typography>
+              <Typography style={{ color: "#A14E5E" }}>
                 Location: {selectedProvince ? selectedProvince.name : " --- "}
               </Typography>
-              <Typography>
+              <Typography style={{ color: "#A14E5E" }}>
                 Crop Type: {selectedCropType ? selectedCropType.name : " --- "}
               </Typography>
             </Container>
@@ -341,7 +349,6 @@ export default function AnalyticsPage() {
 
         <Container
           sx={{
-            color: "red",
             textAlign: "center",
           }}
         >
@@ -353,32 +360,47 @@ export default function AnalyticsPage() {
           >
             Analyze Data
           </Button>
+          <Typography
+            style={{ color: "grey", fontSize: "0.8rem", margin: "1rem" }}
+          >
+            (It may take a bit of time for AI to generate analytics.)
+          </Typography>
         </Container>
 
-        {isLoading && (
-          <Box sx={{ my: "3rem" }}>
-            <Box sx={{ my: 2 }}>
-              <Skeleton />
+        <Container
+          sx={{
+            backgroundColor: "#E8EBEE",
+            padding: "0.5rem",
+            marginY: "3rem",
+            borderRadius: "0.5rem",
+            textAlign: "center",
+          }}
+        >
+          {isLoading ? (
+            <Box sx={{ my: "3rem" }}>
+              <Box sx={{ my: 2 }}>
+                <Skeleton />
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Skeleton animation="wave" />
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Skeleton />
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Skeleton animation="wave" />
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Skeleton />
+              </Box>
+              <Box sx={{ my: 2 }}>
+                <Skeleton animation="wave" />
+              </Box>
             </Box>
-            <Box sx={{ my: 2 }}>
-              <Skeleton animation="wave" />
-            </Box>
-            <Box sx={{ my: 2 }}>
-              <Skeleton />
-            </Box>
-            <Box sx={{ my: 2 }}>
-              <Skeleton animation="wave" />
-            </Box>
-            <Box sx={{ my: 2 }}>
-              <Skeleton />
-            </Box>
-            <Box sx={{ my: 2 }}>
-              <Skeleton animation="wave" />
-            </Box>
-          </Box>
-        )}
-
-        <Typography sx={{ my: "3rem" }}>{responseData}</Typography>
+          ) : (
+            <Typography sx={{ my: "3rem" }}>{responseData}</Typography>
+          )}
+        </Container>
       </Container>
     </>
   );
