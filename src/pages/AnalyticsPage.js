@@ -1,14 +1,12 @@
 // @mui
 import {
+  Alert,
   Autocomplete,
+  Box,
+  Skeleton,
   Card,
-  Table,
   Stack,
-  Paper,
-  Avatar,
   Button,
-  Popover,
-  Checkbox,
   Grid,
   Divider,
   TableRow,
@@ -28,6 +26,8 @@ import {
 
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
+import useNetpie from "../hooks/useNetpie";
+import Chat from "../pages/Chat";
 
 // components
 const provinces = [
@@ -110,9 +110,110 @@ const provinces = [
   { id: "yasothon", name: "Yasothon" },
 ];
 
+const crops = [
+  { id: "Coconut", name: "Coconut" },
+  { id: "Cassava", name: "Cassava" },
+  { id: "Fruits", name: "Fruits" },
+  { id: "Maize (Corn)", name: "Maize (Corn)" },
+  { id: "Palm Oil", name: "Palm Oil" },
+  { id: "Pineapple", name: "Pineapple" },
+  { id: "Rice", name: "Rice" },
+  { id: "Rubber", name: "Rubber" },
+  { id: "Sugarcane", name: "Sugarcane" },
+  { id: "Tapioca", name: "Tapioca" },
+];
+
 export default function AnalyticsPage() {
+  const [farmSize, setFarmSize] = useState(null);
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedCropType, setSelectedCropType] = useState(null);
+
+  const [responseData, setResponseData] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [resErr, setResErr] = useState(false);
+
+  const netpieData = useNetpie();
+
+  const allData = {
+    temperature: netpieData.temperature,
+    humidity: netpieData.humidity,
+    height: netpieData.height,
+    farmSize: farmSize,
+    location: selectedProvince,
+    cropType: selectedCropType,
+  };
+
+  const myPrompt = `Farm data:
+    Temperature: ${allData.temperature}
+    Humidity: ${allData.humidity}% RH
+    Water storage level: ${allData.height}cm
+    Farm size: ${allData.farmSize}acres
+    Location: ${allData.location}
+    Crop type: ${allData.cropType}
+    Provide improvements and concerns for each data point.
+    Write a properly formatted short paragraph and give an
+     environmental recommendation at the end.`;
+
+  async function fetchDataFromGPT() {
+    setIsLoading(true);
+    setResErr(false);
+
+    const GPT_KEY = "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";
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${GPT_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: myPrompt }],
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        options
+      );
+      const data = await response.json();
+      console.log(data.choices[0].message.content);
+      setResponseData(data.choices[0].message.content);
+      setIsLoading(false);
+    } catch (err) {
+      setResponseData("Error");
+      setIsLoading(false);
+      setResErr(true);
+
+      console.log(err);
+    }
+  }
+
+  const [formError, setFormError] = useState(false);
+
+  const validateInput = () => {
+    setFormError(false);
+    if (
+      farmSize < 0 ||
+      farmSize === null ||
+      selectedProvince === null ||
+      selectedCropType == null
+    ) {
+      setFormError(true);
+    }
+  };
+
+  const generateResponse = () => {
+    validateInput();
+    if (
+      !formError &&
+      farmSize !== null &&
+      selectedProvince !== null &&
+      selectedCropType !== null
+    ) {
+      fetchDataFromGPT();
+    }
+  };
 
   return (
     <>
@@ -129,21 +230,20 @@ export default function AnalyticsPage() {
           <Typography variant="h3" gutterBottom>
             Analytics
           </Typography>
-          {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button> */}
         </Stack>
 
         <Stack
           divider={<Divider orientation="vertical" flexItem />}
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
+          sx={{ my: "2rem" }}
         >
           <TextField
             fullWidth
             id="standard-basic"
             label="Farm Size (unit: acre)"
             variant="standard"
+            onChange={(event, value) => setFarmSize(event.target.value)}
             type="number"
             sx={{ m: 1, minWidth: 120 }}
           />
@@ -165,7 +265,7 @@ export default function AnalyticsPage() {
 
           <Autocomplete
             fullWidth
-            options={provinces}
+            options={crops}
             getOptionLabel={(option) => option.name}
             value={selectedCropType}
             onChange={(event, value) => setSelectedCropType(value)}
@@ -175,7 +275,110 @@ export default function AnalyticsPage() {
           />
         </Stack>
 
-        <Button variant="contained">Analyze Data</Button>
+        {formError && (
+          <Container
+            sx={{
+              color: "red",
+              textAlign: "center",
+            }}
+          >
+            <Alert severity="error">Please provide correct information.</Alert>
+          </Container>
+        )}
+
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: 2, md: 4 }}
+          sx={{ my: "4rem" }}
+        >
+          <Container
+            sx={{
+              backgroundColor: "#D0F2FF",
+              padding: "2rem",
+              borderRadius: "2rem",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h4">Current data from sensors</Typography>
+            <Container
+              sx={{
+                my: "1rem",
+              }}
+            >
+              <Typography>Water level: {allData.height} cm</Typography>
+              <Typography>Humidity: {allData.humidity} %RH</Typography>
+              <Typography>
+                Temperature: {allData.temperature} celcius
+              </Typography>
+            </Container>
+          </Container>
+
+          <Container
+            sx={{
+              backgroundColor: "#ffe7d9",
+              padding: "2rem",
+              borderRadius: "2rem",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h4">Given data from the user</Typography>
+
+            <Container
+              sx={{
+                my: "1rem",
+              }}
+            >
+              <Typography>Farm size: {farmSize || " --- "} acre</Typography>
+              <Typography>
+                Location: {selectedProvince ? selectedProvince.name : " --- "}
+              </Typography>
+              <Typography>
+                Crop Type: {selectedCropType ? selectedCropType.name : " --- "}
+              </Typography>
+            </Container>
+          </Container>
+        </Stack>
+
+        <Container
+          sx={{
+            color: "red",
+            textAlign: "center",
+          }}
+        >
+          <Button
+            variant="contained"
+            size="large"
+            color="secondary"
+            onClick={() => generateResponse()}
+          >
+            Analyze Data
+          </Button>
+        </Container>
+
+        {isLoading && (
+          <Box sx={{ my: "3rem" }}>
+            <Box sx={{ my: 2 }}>
+              <Skeleton />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Skeleton animation="wave" />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Skeleton />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Skeleton animation="wave" />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Skeleton />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Skeleton animation="wave" />
+            </Box>
+          </Box>
+        )}
+
+        <Typography sx={{ my: "3rem" }}>{responseData}</Typography>
       </Container>
     </>
   );
