@@ -160,7 +160,7 @@ export default function AnalyticsPage() {
     setIsLoading(true);
     setResErr(false);
 
-    const GPT_KEY = "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";
+    const GPT_KEY = "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";
     const options = {
       method: "POST",
       headers: {
