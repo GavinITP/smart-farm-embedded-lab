@@ -136,27 +136,19 @@ export default function AnalyticsPage() {
 
   const netpieData = useNetpie();
 
-  const allData = {
-    temperature: netpieData.temperature,
-    humidity: netpieData.humidity,
-    height: netpieData.height,
-    farmSize: farmSize,
-    location: selectedProvince,
-    cropType: selectedCropType,
-  };
-
-  const myPrompt = `Farm data:
-    Temperature: ${allData.temperature}
-    Humidity: ${allData.humidity}% RH
-    Water storage level: ${allData.height}cm
-    Farm size: ${allData.farmSize}acres
-    Location: ${allData.location}
-    Crop type: ${allData.cropType}
+  async function fetchDataFromGPT() {
+    const myPrompt = `Farm data:
+    Temperature: ${netpieData.temperature}
+    Humidity: ${netpieData.humidity}% RH
+    Water storage level: ${netpieData.height}cm
+    Farm size: ${farmSize}acres
+    Location: ${selectedProvince.name}
+    Crop type: ${selectedCropType.name}
     Provide improvements and concerns for each data point.
     Write a properly formatted short paragraph and give an
      environmental recommendation at the end.`;
 
-  async function fetchDataFromGPT() {
+    // console.log(myPrompt);
     setIsLoading(true);
     setResErr(false);
 
@@ -318,13 +310,13 @@ export default function AnalyticsPage() {
               }}
             >
               <Typography style={{ color: "#40619F" }}>
-                Water level: {allData.height} cm
+                Water level: {netpieData.height} cm
               </Typography>
               <Typography style={{ color: "#40619F" }}>
-                Humidity: {allData.humidity} %RH
+                Humidity: {netpieData.humidity} %RH
               </Typography>
               <Typography style={{ color: "#40619F" }}>
-                Temperature: {allData.temperature} celcius
+                Temperature: {netpieData.temperature} celcius
               </Typography>
             </Container>
           </Container>
