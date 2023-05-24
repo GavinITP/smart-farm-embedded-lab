@@ -21,15 +21,15 @@ const navConfig = [
   //   path: "/dashboard/map",
   //   icon: icon("ic_user"),
   // },
-  // {
-  //   title: 'user',
-  //   path: '/dashboard/user',
-  //   icon: icon('ic_user'),
-  // },
   {
     title: "analytics",
     path: "/dashboard/analytics",
-    icon: icon("ic_cart"),
+    icon: icon("ic_blog"),
+  },
+  {
+    title: "about",
+    path: "/dashboard/about",
+    icon: icon("ic_user"),
   },
   // {
   //   title: 'resources',

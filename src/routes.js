@@ -7,6 +7,7 @@ import SimpleLayout from "./layouts/simple";
 import Page404 from "./pages/Page404";
 import DashboardAppPage from "./pages/DashboardAppPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import AboutPage from "./pages/AboutPage";
 
 // ----------------------------------------------------------------------
 
@@ -19,8 +20,8 @@ export default function Router() {
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: "app", element: <DashboardAppPage /> },
         // { path: "map", element: <MapPage /> },
-        // { path: "user", element: <UserPage /> },
         { path: "analytics", element: <AnalyticsPage /> },
+        { path: "about", element: <AboutPage /> },
         // { path: 'blog', element: <BlogPage /> },
       ],
     },
