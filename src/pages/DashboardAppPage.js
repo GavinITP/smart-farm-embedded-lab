@@ -59,8 +59,12 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h3" sx={{ mb: 5 }}>
+        <Typography variant="h3" sx={{ mb: 1 }}>
           Agriculture Metrics Dashboards
+        </Typography>
+        <Typography sx={{ mb: 5, color: "grey" }}>
+          (Make sure that NodeMCU is connected online, so this website will get
+          real-time data.)
         </Typography>
 
         <Grid container spacing={3}>
