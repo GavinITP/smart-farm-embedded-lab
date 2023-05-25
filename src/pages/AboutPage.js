@@ -2,10 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useEffect } from "react";
 // @mui
 import { useTheme } from "@mui/material/styles";
-import { Grid, Container, Typography } from "@mui/material";
-
-// sections
-import { AppWebsiteVisits, AppWidgetSummary } from "../sections/@dashboard/app";
+import { Container, Typography } from "@mui/material";
 
 import useNetpie from "../hooks/useNetpie";
 
