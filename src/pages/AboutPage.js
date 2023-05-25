@@ -128,11 +128,11 @@ export default function DashboardAppPage() {
         <Typography sx={{ mb: 5 }}>
           In summary, the Farm Dashboard developed for the university subject
           "2110366 EMBEDDED SYS LAB I" is a comprehensive solution that empowers
-          farmers with real-time data analysis, remote monitoring, proactive
-          notifications, and interactive conversations. By combining sensor
-          data, IoT capabilities, cloud storage, and AI-powered analysis, the
-          dashboard helps farmers adopt best practices for sustainable and
-          efficient farming while minimizing environmental impact.
+          farmers with real-time data analysis, data monitoring, proactive
+          notifications. By combining sensor data, IoT capabilities, cloud
+          storage, and AI-powered analysis, the dashboard helps farmers adopt
+          best practices for sustainable and efficient farming while minimizing
+          environmental impact.
         </Typography>
       </Container>
     </>
