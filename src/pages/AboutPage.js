@@ -69,8 +69,8 @@ export default function DashboardAppPage() {
           farmers in optimizing their farming practices while prioritizing
           environmental sustainability. The dashboard integrates various
           sensors, a microcontroller board, IoT capabilities, cloud storage,
-          Line Notify API, and ChatGPT API to provide farmers with real-time
-          data analysis and proactive notifications.
+          Line Notify API, and OpenAI API to provide farmers with real-time data
+          analysis and proactive notifications.
         </Typography>
 
         <Typography sx={{ mb: 5 }}>
@@ -109,11 +109,11 @@ export default function DashboardAppPage() {
 
         <Typography sx={{ mb: 5 }}>
           To enhance farmers' decision-making processes, the Farm Dashboard
-          utilizes the ChatGPT API. This enables farmers to input information
+          utilizes the OpenAI API. This enables farmers to input information
           about their farms and receive detailed analysis and recommendations
           regarding farming practices and environmental impact mitigation. By
-          leveraging the capabilities of natural language processing, the
-          ChatGPT API provides valuable insights to optimize farming practices.
+          leveraging the capabilities of natural language processing, the OpenAI
+          API provides valuable insights to optimize farming practices.
         </Typography>
 
         <Typography sx={{ mb: 5 }}>
