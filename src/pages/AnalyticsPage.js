@@ -127,7 +127,7 @@ export default function AnalyticsPage() {
     const myPrompt = `Farm data:
     Temperature: ${netpieData.temperature}
     Humidity: ${netpieData.humidity}% RH
-    Water storage level: ${netpieData.height}cm
+    Water storage level: ${netpieData.height}m
     Farm size: ${farmSize}acres
     Location: ${selectedProvince.name}
     Crop type: ${selectedCropType.name}
@@ -297,7 +297,7 @@ export default function AnalyticsPage() {
               }}
             >
               <Typography style={{ color: "#40619F" }}>
-                Water level: {netpieData.height} cm
+                Water level: {netpieData.height} m
               </Typography>
               <Typography style={{ color: "#40619F" }}>
                 Humidity: {netpieData.humidity} %RH

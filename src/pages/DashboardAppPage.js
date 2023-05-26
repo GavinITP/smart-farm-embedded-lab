@@ -70,7 +70,7 @@ export default function DashboardAppPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary
-              title="Water Level (cm)"
+              title="Water Level (m)"
               total={netpieData.height}
               icon={"ant-design:experiment-filled"}
             />
